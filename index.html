@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xpert Chimney Sweep | Chimney in Philadelphia, PA</title>
+<meta name="description" content="Xpert Chimney Sweep helps keep your house safe and comfortable with chimney sweeping, air duct cleaning, dryer vent cleaning and other services that remove air ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p:#7C2D12;--pd:#59200c;--pl:#efe5e2;
+  --bg:#f8f9fa;--bg2:#ffffff;
+  --txt:#0f172a;--sub:#475569;--muted:#94a3b8;--border:#e2e8f0;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;inset:0 0 auto 0;z-index:999;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 2rem;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 12px rgba(0,0,0,.06);
+}
+.nbrand{font-size:1rem;font-weight:800;color:var(--txt);text-decoration:none;letter-spacing:-.02em}
+.nbrand span{color:var(--p)}
+.nphone{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:var(--p);color:#fff;text-decoration:none;
+  padding:.5rem 1.2rem;border-radius:8px;font-weight:700;font-size:.875rem;
+  box-shadow:0 2px 14px rgba(124,45,18,.3);
+  transition:background .25s,transform .2s;
+}
+.nphone:hover{background:var(--pd);transform:translateY(-1px)}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,var(--p) 0%,var(--pd) 100%);
+  padding:8rem 2rem 7rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(255,255,255,.12) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 50%,rgba(255,255,255,.08) 0%,transparent 50%);
+}
+.hero::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:80px;
+  background:var(--bg);
+  clip-path:ellipse(60% 100% at 50% 100%);
+}
+.hero-wrap{position:relative;z-index:2;max-width:800px;margin:0 auto;}
+/* Large centered trade icon */
+.hero-icon-ring{
+  width:100px;height:100px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;color:#fff;
+  margin:0 auto 1.8rem;
+  box-shadow:0 0 40px rgba(0,0,0,.15);
+}
+.hero h1{
+  font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;
+  line-height:1.04;letter-spacing:-.035em;color:#fff;margin-bottom:.9rem;
+}
+.hero-sub{
+  font-size:clamp(.95rem,2vw,1.15rem);color:rgba(255,255,255,.85);
+  max-width:560px;line-height:1.65;margin:.5rem auto 2.2rem;
+}
+.ctas{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;justify-content:center}
+.btn-main{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:#fff;color:var(--p);text-decoration:none;
+  padding:.95rem 2rem;border-radius:8px;font-weight:800;font-size:1rem;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  transition:transform .25s,box-shadow .25s;
+}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:transparent;color:#fff;text-decoration:none;
+  padding:.93rem 2rem;border-radius:8px;font-weight:600;font-size:1rem;
+  border:2px solid rgba(255,255,255,.35);
+  transition:border-color .25s,background .25s;
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.1)}
+.hero-pills{
+  display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;
+  margin-top:2rem;
+}
+.pill{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  padding:.3rem .8rem;border-radius:100px;
+  font-size:.73rem;color:rgba(255,255,255,.9);font-weight:600;
+}
+.pill i{font-size:.75rem}
+
+/* SERVICES */
+.services{background:var(--bg);padding:5.5rem 2rem}
+.sec-hdr{text-align:center;margin-bottom:3rem}
+.sec-label{
+  display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--p);margin-bottom:.6rem;
+}
+.sec-hdr h2{font-size:clamp(1.7rem,4vw,2.8rem);font-weight:800;letter-spacing:-.025em;color:var(--txt)}
+.sec-hdr p{color:var(--sub);font-size:1rem;max-width:520px;margin:.65rem auto 0;line-height:1.6}
+.svc-list{
+  display:flex;flex-direction:column;gap:1rem;max-width:800px;margin:0 auto;
+}
+.scard{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:1.4rem 1.6rem;
+  display:flex;align-items:center;gap:1.2rem;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.scard:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,.07);border-color:rgba(124,45,18,.3)}
+.scard-ico{
+  width:44px;height:44px;flex-shrink:0;border-radius:10px;
+  background:var(--pl);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:var(--p);
+}
+.scard-body{flex:1}
+.scard-body h3{font-size:.98rem;font-weight:700;color:var(--txt);margin-bottom:.2rem}
+.scard-body p{font-size:.82rem;color:var(--muted);line-height:1.4}
+.scard-arrow{color:var(--muted);font-size:.85rem;transition:color .25s,transform .25s}
+.scard:hover .scard-arrow{color:var(--p);transform:translateX(3px)}
+
+/* ABOUT */
+.about{background:var(--bg2);padding:5.5rem 2rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.about-inner{
+  max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+}
+.about-copy .sec-label{display:block;text-align:left;margin-bottom:.5rem}
+.about-copy h2{font-size:clamp(1.7rem,3.5vw,2.7rem);font-weight:800;letter-spacing:-.025em;color:var(--txt);margin-bottom:1.3rem}
+.about-copy p{color:var(--sub);line-height:1.8;font-size:.975rem;margin-bottom:1.4rem}
+.feature-list{display:flex;flex-direction:column;gap:.65rem}
+.fitem{display:flex;align-items:center;gap:.7rem;font-size:.9rem;color:var(--txt);font-weight:500}
+.fitem i{color:var(--p);font-size:.95rem;flex-shrink:0}
+.about-card{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:20px;padding:2.5rem;text-align:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.05);
+}
+.about-card .big-ico{
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,var(--p),var(--pd));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;color:#fff;
+  margin:0 auto 1.2rem;
+  box-shadow:0 4px 20px rgba(124,45,18,.3);
+}
+.about-card h3{font-size:1.2rem;font-weight:800;color:var(--txt);margin-bottom:.6rem}
+.about-card p{color:var(--sub);font-size:.9rem;line-height:1.6;margin-bottom:1.6rem}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--bg);padding:5.5rem 2rem}
+.t-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:1.5rem;max-width:1000px;margin:0 auto;
+}
+.tcard{
+  background:var(--bg2);border-radius:16px;padding:2rem;
+  border:1px solid var(--border);
+  box-shadow:0 2px 14px rgba(0,0,0,.05);
+  transition:transform .3s,box-shadow .3s;
+}
+.tcard:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.stars{color:#f59e0b;letter-spacing:2px;margin-bottom:.9rem;font-size:.9rem}
+.tcard p{color:var(--sub);line-height:1.7;font-size:.93rem;font-style:italic;margin-bottom:.9rem}
+.rname{font-size:.8rem;color:var(--p);font-weight:600}
+
+/* CTA */
+.cta-band{
+  background:linear-gradient(135deg,var(--p) 0%,var(--pd) 100%);
+  padding:5rem 2rem;text-align:center;
+}
+.cta-band h2{font-size:clamp(1.9rem,5vw,3.2rem);font-weight:900;letter-spacing:-.03em;color:#fff;margin-bottom:.9rem}
+.cta-band p{font-size:1.05rem;color:rgba(255,255,255,.88);max-width:480px;margin:0 auto 2.4rem;line-height:1.6}
+.btn-cta{
+  display:inline-flex;align-items:center;gap:.7rem;
+  background:#fff;color:var(--p);text-decoration:none;
+  padding:1.1rem 2.6rem;border-radius:8px;font-weight:800;font-size:1.1rem;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  transition:transform .25s,box-shadow .25s;
+}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.25)}
+
+/* FOOTER */
+footer{background:var(--txt);padding:2.2rem 2rem;text-align:center}
+footer p{color:rgba(255,255,255,.4);font-size:.82rem}
+footer a{color:var(--p);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* ANIMATE */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-wrap>*{animation:fadeUp .55s ease both}
+.hero-wrap>*:nth-child(1){animation-delay:.1s}
+.hero-wrap>*:nth-child(2){animation-delay:.18s}
+.hero-wrap>*:nth-child(3){animation-delay:.26s}
+.hero-wrap>*:nth-child(4){animation-delay:.34s}
+.hero-wrap>*:nth-child(5){animation-delay:.42s}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .about-inner{grid-template-columns:1fr;gap:2.5rem}
+  .ctas{flex-direction:column;align-items:center}
+}
+@media(max-width:480px){
+  .t-grid{grid-template-columns:1fr}
+  nav{padding:.75rem 1rem}
+}
+/* ── MAP ── */
+.map-section{background:#0f172a}
+#map{width:100%;height:400px;display:block}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nbrand" href="#"><span>Xpert Chimney Sweep</span></a>
+  <a class="nphone" href="tel:8432409387"><i class="fas fa-phone"></i>(843) 240-9387</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-wrap">
+    <div class="hero-icon-ring"><i class="fas fa-fire-alt"></i></div>
+    <h1>Xpert Chimney Sweep</h1>
+    <p class="hero-sub">Xpert Chimney Sweep helps keep your house safe and comfortable with chimney sweeping, air duct cleaning, dryer vent cleaning and other services that remove air pollutants.</p>
+    <div class="ctas">
+      <a class="btn-main" href="tel:8432409387"><i class="fas fa-phone"></i>Call Now: (843) 240-9387</a>
+      <a class="btn-ghost" href="#services"><i class="fas fa-list"></i>Our Services</a>
+    </div>
+    <div class="hero-pills">
+      <div class="pill"><i class="fas fa-map-marker-alt"></i>Serving Philadelphia, PA</div>
+      <div class="pill"><i class="fas fa-shield-alt"></i>Licensed &amp; Insured</div>
+      <div class="pill"><i class="fas fa-tag"></i>Free Estimates</div>
+      <div class="pill"><i class="fas fa-star"></i>5-Star Rated</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="sec-hdr">
+    <span class="sec-label">What We Do</span>
+    <h2>Our Chimney Services</h2>
+    <p>Expert chimney solutions for homeowners and businesses in Philadelphia and surrounding areas.</p>
+  </div>
+  <div class="svc-list">
+      <div class="scard">
+        <div class="scard-ico"><i class="fas fa-fire-alt"></i></div>
+        <div class="scard-body">
+          <h3>888-862-1302</h3>
+          <p>Expert service backed by experience and a satisfaction guarantee.</p>
+        </div>
+        <i class="fas fa-arrow-right scard-arrow"></i>
+      </div>
+      <div class="scard">
+        <div class="scard-ico"><i class="fas fa-broom"></i></div>
+        <div class="scard-body">
+          <h3>Chimney sweeping &amp; cleaning</h3>
+          <p>Expert service backed by experience and a satisfaction guarantee.</p>
+        </div>
+        <i class="fas fa-arrow-right scard-arrow"></i>
+      </div>
+      <div class="scard">
+        <div class="scard-ico"><i class="fas fa-hard-hat"></i></div>
+        <div class="scard-body">
+          <h3>Chimney Inspection Service</h3>
+          <p>Expert service backed by experience and a satisfaction guarantee.</p>
+        </div>
+        <i class="fas fa-arrow-right scard-arrow"></i>
+      </div>
+      <div class="scard">
+        <div class="scard-ico"><i class="fas fa-search"></i></div>
+        <div class="scard-body">
+          <h3>Chimney Repair Service</h3>
+          <p>Expert service backed by experience and a satisfaction guarantee.</p>
+        </div>
+        <i class="fas fa-arrow-right scard-arrow"></i>
+      </div>
+      <div class="scard">
+        <div class="scard-ico"><i class="fas fa-tools"></i></div>
+        <div class="scard-body">
+          <h3>Furnace Inspection Service</h3>
+          <p>Expert service backed by experience and a satisfaction guarantee.</p>
+        </div>
+        <i class="fas fa-arrow-right scard-arrow"></i>
+      </div>
+      <div class="scard">
+        <div class="scard-ico"><i class="fas fa-check-circle"></i></div>
+        <div class="scard-body">
+          <h3>Air Duct Cleaning Service</h3>
+          <p>Expert service backed by experience and a satisfaction guarantee.</p>
+        </div>
+        <i class="fas fa-arrow-right scard-arrow"></i>
+      </div></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-copy">
+      <span class="sec-label">About Xpert Chimney Sweep</span>
+      <h2>Your Local Chimney Professionals</h2>
+      <p>Not only is a well-maintained chimney aesthetically pleasing, but it is also essential for indoor air quality and safety. Presenting Xpert Chimney Sweep, is your go-to source for knowledge on air quality and chimney maintenance.</p>
+      <div class="feature-list">
+        <div class="fitem"><i class="fas fa-check-circle"></i>Licensed &amp; Fully Insured</div>
+        <div class="fitem"><i class="fas fa-check-circle"></i>Free Estimates Available</div>
+        <div class="fitem"><i class="fas fa-check-circle"></i>Serving Philadelphia &amp; Surrounding Areas</div>
+        <div class="fitem"><i class="fas fa-check-circle"></i>100% Satisfaction Guaranteed</div>
+      </div>
+    </div>
+    <div class="about-card">
+      <div class="big-ico"><i class="fas fa-fire-alt"></i></div>
+      <h3>Chimney Experts</h3>
+      <p>Quality chimney service you can count on, right here in Philadelphia, PA.</p>
+      <a class="btn-main" href="tel:8432409387" style="justify-content:center">
+        <i class="fas fa-phone"></i>(843) 240-9387
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="reviews">
+  <div class="sec-hdr">
+    <span class="sec-label">Reviews</span>
+    <h2>What Customers Say</h2>
+    <p>Verified reviews from satisfied customers who relied on Xpert Chimney Sweep in Philadelphia.</p>
+  </div>
+  <div class="t-grid">
+      <div class="tcard">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Amazing service from start to finish. Professional, on time, and did an outstanding job. I couldn&#39;t be happier with the results and will definitely use them again.&rdquo;</p>
+        <span class="rname">&#8212; Verified Customer</span>
+      </div>
+      <div class="tcard">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Best decision I made was calling this company. Fair pricing, great communication, and the quality of work exceeded my expectations. Highly recommend!&rdquo;</p>
+        <span class="rname">&#8212; Verified Customer</span>
+      </div>
+      <div class="tcard">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Outstanding crew — knowledgeable, friendly, and they left everything spotless. Completed the job exactly as promised. Five stars without hesitation.&rdquo;</p>
+        <span class="rname">&#8212; Verified Customer</span>
+      </div></div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" id="contact">
+  <h2>Ready to Schedule?</h2>
+  <p>Get in touch with Xpert Chimney Sweep for fast, professional chimney service in Philadelphia, PA. Free estimates available.</p>
+  <a class="btn-cta" href="tel:8432409387"><i class="fas fa-phone-alt"></i>Call (843) 240-9387</a>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+  <div id="map" aria-label="Map showing Xpert Chimney Sweep in Philadelphia, PA"></div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Xpert Chimney Sweep &nbsp;&bull;&nbsp; Chimney in Philadelphia, PA &nbsp;&bull;&nbsp; <a href="tel:8432409387">(843) 240-9387</a></p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var geo='7715 Crittenden St Unit 391, Philadelphia, PA';
+  if(!geo)return;
+  var q=encodeURIComponent(geo+', USA');
+  fetch('https://nominatim.openstreetmap.org/search?q='+q+'&format=json&limit=1')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d||!d.length)return;
+      var lat=parseFloat(d[0].lat),lng=parseFloat(d[0].lon);
+      var map=L.map('map',{scrollWheelZoom:false}).setView([lat,lng],13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom:19
+      }).addTo(map);
+      L.marker([lat,lng]).addTo(map).bindPopup('Xpert Chimney Sweep').openPopup();
+    }).catch(function(){});
+})();
+</script>
+
+</body>
+</html>
